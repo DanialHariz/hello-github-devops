@@ -1,9 +1,6 @@
 import reflex as rx
 
 config = rx.Config(
-    app_name="ToDoList",
-    plugins=[
-        rx.plugins.SitemapPlugin(),
-        rx.plugins.TailwindV4Plugin(),
-    ],
+    app_name="ToDoList",  # This should match the folder 'todo' that contains app.py
+    
 )

@@ -1,0 +1,10 @@
+{
+  "name": "reflex-flatpickr",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-flatpickr": "^3.10.7",
+    "flatpickr": "^4.6.13"
+  }
+}
