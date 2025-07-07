@@ -17,9 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the port Reflex uses
-EXPOSE 3000
+#EXPOSE 3000
+
+# Use the Cloud Run port (Google injects $PORT, default 8080)
+EXPOSE 8080
 
 # Start the Reflex app
-CMD ["reflex", "run", "--backend-port", "3000", "--env", "dev"]
+CMD ["reflex", "run", "--backend-port", "8080", "--env", "dev"]
 
 
