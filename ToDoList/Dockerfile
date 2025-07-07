@@ -6,22 +6,20 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && \
-    apt-get install -y unzip curl build-essential && \
+    apt-get install -y unzip curl build-essential git && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Reflex CLI globally
+RUN pip install --no-cache-dir reflex
 
-# ✅ Add this line to make sure 'reflex' is in PATH
-RUN ln -s /usr/local/bin/python3 /usr/bin/python && \
-    ln -s /usr/local/bin/reflex /usr/bin/reflex
-
-# Copy the rest of the app
+# Copy source files
 COPY . .
 
-# Expose the correct port
+# ✅ Build the Reflex app (this generates .web and backend)
+RUN reflex export --backend-port 8080 --env prod
+
+# Set port for Cloud Run
 EXPOSE 8080
 
-# Start the Reflex app
-CMD ["reflex", "run", "--backend-port", "8080", "--env", "dev"]
+# Run the already-built backend
+CMD ["python", "-m", "reflex.run", "--backend-port", "8080", "--env", "prod"]
