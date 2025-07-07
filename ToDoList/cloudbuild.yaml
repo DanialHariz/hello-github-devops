@@ -1,35 +1,23 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '-t',
-        'us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app',
-        '.'
-      ]
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'push',
-        'us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app'
-      ]
+    args: [
+      'build',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app',
+      '.'
+    ]
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      [
-        'run',
-        'deploy',
-        'todo-app',
-        '--image=us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app',
-        '--region=us-central1',
-        '--platform=managed',
-        '--allow-unauthenticated'
-      ]
+    args: [
+      'gcloud', 'run', 'deploy', 'todo-app',
+      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--project', '$PROJECT_ID'
+    ]
 
 images:
-  - us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app'
 
 options:
   logging: CLOUD_LOGGING_ONLY
