@@ -15,11 +15,11 @@ RUN pip install --no-cache-dir reflex
 # Copy source files
 COPY . .
 
-# ✅ Build the Reflex app (this generates .web and backend)
-RUN reflex export --backend-port 8080 --env prod
+# ✅ Build the Reflex app (no --backend-port here!)
+RUN reflex export --env prod
 
 # Set port for Cloud Run
 EXPOSE 8080
 
-# Run the already-built backend
+# ✅ Run the already-built backend
 CMD ["python", "-m", "reflex.run", "--backend-port", "8080", "--env", "prod"]
