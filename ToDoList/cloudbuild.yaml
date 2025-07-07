@@ -13,7 +13,8 @@ steps:
       "--image", "us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app",
       "--region", "us-central1",
       "--platform", "managed",
-      "--allow-unauthenticated"
+      "--allow-unauthenticated",
+      "--memory", "1Gi" 
     ]
 
 images:
