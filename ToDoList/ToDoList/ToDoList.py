@@ -71,9 +71,3 @@ def index():
 
 app = rx.App()
 app.add_page(index)
-
-# ✅ Serve the app on Cloud Run's assigned port
-if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 8080))
-    rx.serve(app, port=port)
