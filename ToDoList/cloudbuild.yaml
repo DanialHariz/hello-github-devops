@@ -1,23 +1,23 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: "gcr.io/cloud-builders/docker"
     args: [
-      'build',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app',
-      '.'
+      "build",
+      "-t", "us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app",
+      "-f", "ToDoList/Dockerfile",
+      "ToDoList"
     ]
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args: [
-      'gcloud', 'run', 'deploy', 'todo-app',
-      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app',
-      '--region', 'us-central1',
-      '--platform', 'managed',
-      '--allow-unauthenticated',
-      '--project', '$PROJECT_ID'
+      "gcloud", "run", "deploy", "todo-app",
+      "--image", "us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app",
+      "--region", "us-central1",
+      "--platform", "managed",
+      "--allow-unauthenticated"
     ]
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app'
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/todo-repo/todo-app"
 
 options:
   logging: CLOUD_LOGGING_ONLY
