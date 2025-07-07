@@ -1,31 +1,35 @@
-substitutions:
-  _REGION: us-central1
-  _SERVICE_NAME: todo-app
-  _REPOSITORY: todo-repo
-
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    dir: 'ToDoList'
-    args: [
-      'build', '-t',
-      '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPOSITORY/$_SERVICE_NAME', '.'
-    ]
+    args:
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app',
+        '.'
+      ]
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'push',
-      '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPOSITORY/$_SERVICE_NAME'
-    ]
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app'
+      ]
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: [
-      'run', 'deploy', '$_SERVICE_NAME',
-      '--image', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPOSITORY/$_SERVICE_NAME',
-      '--region', '$_REGION',
-      '--platform', 'managed',
-      '--allow-unauthenticated'
-    ]
+    args:
+      [
+        'run',
+        'deploy',
+        'todo-app',
+        '--image=us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app',
+        '--region=us-central1',
+        '--platform=managed',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - us-central1-docker.pkg.dev/credible-glow-464605-s1/todo-repo/todo-app
 
 options:
   logging: CLOUD_LOGGING_ONLY
