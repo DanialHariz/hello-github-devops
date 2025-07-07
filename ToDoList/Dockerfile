@@ -9,17 +9,18 @@ RUN apt-get update && \
     apt-get install -y unzip curl build-essential git && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Reflex CLI globally
-RUN pip install --no-cache-dir reflex
+# Copy requirements and install dependencies (including pymongo)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source files
+# Copy rest of the app
 COPY . .
 
-# ✅ Build the Reflex app (no --backend-port here!)
-RUN reflex export --env prod
+# ✅ Build the Reflex app with debug fallback
+RUN reflex export --env prod || (echo " Reflex export failed" && cat ~/.reflex/logs/*.log || true && exit 1)
 
-# Set port for Cloud Run
+# Set the port Cloud Run expects
 EXPOSE 8080
 
-# ✅ Run the already-built backend
+# ✅ Start backend using Python (ensures PORT is respected)
 CMD ["python", "-m", "reflex.run", "--backend-port", "8080", "--env", "prod"]
